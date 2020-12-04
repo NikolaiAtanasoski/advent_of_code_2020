@@ -1,66 +1,48 @@
+import os
 
-def puzzle_1():
-    print(len(woods))
 
-    start = True
-    index = 0
-    tree_counter = 0
-    #   for line in range(len(woods) + 1):
-    for line in woods:
-        hitbox = "O"
-        if start:
-            print(line)
-            start = False
-            continue
+class Day3:
 
-        index = index + 3
+    def __init__(self):
+        self.woods = self.load_input("day3_input.txt")
 
-        if index >= len(line):
-            index = index - len(line)
+    def load_input(self, file_name):
+        file_dir = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(file_dir, file_name), "r") as file:
+            input_file = file.read().splitlines()
+        return input_file
+
+    def count_trees(self,steps_right, steps_down):
+        position = -steps_right
+        tree_counter = 0
+        line_length = len(self.woods[0])
     
+        for line in self.woods[::steps_down]:
+            position = (position + steps_right) % line_length
+            if line[position] == "#":
+                tree_counter = tree_counter + 1
 
-        if line[index] == "#":
-            hitbox = "X"
-            tree_counter = tree_counter + 1
+        print(tree_counter)
+        return tree_counter
 
-        s = line[:index] + hitbox + line[index + 1:]
+    def count_multiple(self,steps):
+        answer = 1
+        for step in steps:
+            answer = answer * self.count_trees(step[0],step[1])
+        return answer
+
+    def print_tree_line(self, tree_line, position, hitbox):
+        s = tree_line[:indpositionex] + hitbox + tree_line[position + 1:]
         print(s)
 
-    print(tree_counter)
-
-def puzzle_2(steps_right, steps_down):
-    start = True
-    index = 0
-    tree_counter = 0
-    
-    for line in range(0,len(woods),steps_down):
-        hitbox = "0"
-    
-        if start:
-            print(woods[line])
-            start = False
-            continue
-
-        index = index + steps_right
-
-        if index >= len(woods[line]):
-            index = index - len(woods[line])
-
-        if woods[line][index] == "#":
-            hitbox = "X"
-            tree_counter = tree_counter + 1
-
-        s = woods[line][:index] + hitbox + woods[line][index + 1:]
-        print(s)
-
-    print(tree_counter)
-    return tree_counter
+###main###
 
 
-woods = []
-with open("src/day3/day3_input.txt","r") as file:
-    woods =  file.read().splitlines() 
+day3 = Day3()
 
-total = puzzle_2(1,1) * puzzle_2(3,1) * puzzle_2(5,1) * puzzle_2(7,1) * puzzle_2(1,2)
+puzzle_1_answer = day3.count_trees(3, 1)
+print(f"puzzle_1_answer: {puzzle_1_answer}")
 
-print(f"total: {total}")
+steps = ((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))
+puzzle_2_answer = day3.count_multiple(steps)
+print(f"puzzle_2_answer: {puzzle_2_answer}")
