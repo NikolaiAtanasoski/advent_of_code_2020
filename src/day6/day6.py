@@ -34,21 +34,14 @@ class Day6:
 
     def puzzle2(self):
         data = []
-        # _list = []
-        # for line in self.input_data:
-        #     if(line == ""):
-        #         data.append(_list)
-        #         _list = []
-        #     else:
-        #         _list.append(line)
-        # data.append(_list)
         _list = []
         for line in self.input_data:
             if(line == ""):
                 data.append(_list)
                 _list = []
             else:
-                _list.append(set([answer for answer in line]))
+                _list.append(set(line))
+
         data.append(_list) 
 
         sum_of_answers = 0
