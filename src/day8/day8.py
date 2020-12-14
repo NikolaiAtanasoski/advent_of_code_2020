@@ -90,7 +90,7 @@ class Day8:
 
 
 
-Day8 = Day8()
+day8 = Day8()
 
 answer1 = Day8.puzzle1()
 print(f"Answer 1 : {answer1}")
